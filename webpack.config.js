@@ -1,19 +1,19 @@
-const webpack = require("webpack");
-const path = require("path");
-const config = require("sapper/config/webpack.js");
-const sveltePreprocess = require("svelte-preprocess");
+const webpack = require('webpack')
+const path = require('path')
+const config = require('sapper/config/webpack.js')
+const sveltePreprocess = require('svelte-preprocess')
 
-const pkg = require("./package.json");
+const pkg = require('./package.json')
 
-const mode = process.env.NODE_ENV;
-const dev = mode === "development";
-const hot = dev && process.env.HOT != 0;
+const mode = process.env.NODE_ENV
+const dev = mode === 'development'
+const hot = dev && process.env.HOT != 0
 
-const alias = { svelte: path.resolve("node_modules", "svelte") };
-const extensions = [".mjs", ".js", ".json", ".svelte", ".html"];
-const mainFields = ["svelte", "module", "browser", "main"];
+const alias = { svelte: path.resolve('node_modules', 'svelte') }
+const extensions = ['.mjs', '.js', '.json', '.svelte', '.html']
+const mainFields = ['svelte', 'module', 'browser', 'main']
 
-const preprocess = sveltePreprocess({ postcss: true });
+const preprocess = sveltePreprocess({ postcss: true })
 
 module.exports = {
   client: {
@@ -25,7 +25,7 @@ module.exports = {
         {
           test: /\.(svelte|html)$/,
           use: {
-            loader: "svelte-loader-hot",
+            loader: 'svelte-loader-hot',
             options: {
               preprocess,
               dev, // NOTE dev mode is REQUIRED for HMR
@@ -46,19 +46,19 @@ module.exports = {
       // pending https://github.com/sveltejs/svelte/issues/3632
       hot && new webpack.HotModuleReplacementPlugin(),
       new webpack.DefinePlugin({
-        "process.browser": true,
-        "process.env.NODE_ENV": JSON.stringify(mode),
+        'process.browser': true,
+        'process.env.NODE_ENV': JSON.stringify(mode),
       }),
     ].filter(Boolean),
-    devtool: dev && "inline-source-map",
+    devtool: dev && 'inline-source-map',
   },
 
   server: {
     entry: config.server.entry(),
     output: config.server.output(),
-    target: "node",
+    target: 'node',
     resolve: { alias, extensions, mainFields },
-    externals: Object.keys(pkg.dependencies).concat("encoding"),
+    externals: Object.keys(pkg.dependencies).concat('encoding'),
     module: {
       rules: [
         {
@@ -66,11 +66,11 @@ module.exports = {
           use: {
             // you don't need svelte-loader-hot here, but it avoids having to
             // also install svelte-loader
-            loader: "svelte-loader-hot",
+            loader: 'svelte-loader-hot',
             options: {
               preprocess,
               css: false,
-              generate: "ssr",
+              generate: 'ssr',
               dev,
             },
           },
@@ -88,4 +88,4 @@ module.exports = {
     output: config.serviceworker.output(),
     mode: process.env.NODE_ENV,
   },
-};
+}

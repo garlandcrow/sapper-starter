@@ -1,15 +1,9 @@
 <script>
-  export let status;
-  export let error;
+  export let status
+  export let error
 
-  const dev = process.env.NODE_ENV === "development";
+  const dev = process.env.NODE_ENV === 'development'
 </script>
-
-<style>
-  h1 {
-    @apply text-5xl font-bold;
-  }
-</style>
 
 <svelte:head>
   <title>{status}</title>
@@ -22,3 +16,9 @@
 {#if dev && error.stack}
   <pre>{error.stack}</pre>
 {/if}
+
+<style>
+  h1 {
+    @apply text-5xl font-bold;
+  }
+</style>

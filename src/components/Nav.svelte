@@ -1,3 +1,8 @@
+<nav class="border-b border-red-300 flex">
+  <a href=".">home</a>
+  <a href="about">about</a>
+</nav>
+
 <style>
   a {
     text-decoration: none;
@@ -9,8 +14,3 @@
     @apply bg-red-300;
   }
 </style>
-
-<nav class="border-b border-red-300 flex">
-  <a href=".">home</a>
-  <a href="about">about</a>
-</nav>

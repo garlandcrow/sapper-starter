@@ -1,16 +1,6 @@
 <script>
-  let didClick = false;
+  let didClick = false
 </script>
-
-<style>
-  h1 {
-    @apply text-3xl font-bold uppercase;
-  }
-
-  .apply-style {
-    @apply bg-red-300;
-  }
-</style>
 
 <svelte:head>
   <title>Hot Tailwind Sapper project template</title>
@@ -21,9 +11,7 @@
   <h1 class="bg-blue-300">Great success using Tailwind class!</h1>
 
   {#if !didClick}
-    <button
-      class="m-2 p-2 bg-blue-500 rounded text-white"
-      on:click={() => (didClick = true)}>
+    <button class="m-2 p-2 bg-blue-500 rounded text-white" on:click={() => (didClick = true)}>
       Click Me
     </button>
   {:else}
@@ -35,3 +23,13 @@
   </strong>
 
 </div>
+
+<style>
+  h1 {
+    @apply text-3xl font-bold uppercase;
+  }
+
+  .apply-style {
+    @apply bg-red-300;
+  }
+</style>
