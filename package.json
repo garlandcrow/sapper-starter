@@ -3,8 +3,9 @@
   "description": "TODO",
   "version": "0.0.1",
   "scripts": {
-    "dev": "sapper dev",
-    "watch:tailwind": "postcss src/tailwind.css -o static/tailwind-compiled.css -w",
+    "dev": "run-p dev:tailwind dev:sapper",
+    "dev:sapper": "sapper dev",
+    "dev:tailwind": "postcss src/tailwind.css -o static/tailwind-compiled.css -w",
     "build": "yarn build:tailwind && NODE_ENV=production sapper build",
     "build:tailwind": "NODE_ENV=production postcss src/tailwind.css -o static/tailwind-compiled.css",
     "export": "yarn build:tailwind && NODE_ENV=production sapper export",
