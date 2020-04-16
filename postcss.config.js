@@ -12,7 +12,14 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
 })
 
 const cssnano = require('cssnano')({
-  preset: 'default',
+  preset: [
+    'default',
+    {
+      discardComments: {
+        removeAll: true,
+      },
+    },
+  ],
 })
 
 module.exports = {

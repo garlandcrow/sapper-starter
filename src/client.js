@@ -1,3 +1,4 @@
+// import './'
 import * as sapper from '@sapper/app'
 
 sapper.start({

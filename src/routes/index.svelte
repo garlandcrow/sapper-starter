@@ -1,5 +1,7 @@
 <script>
+  import Textfield from '@smui/textfield'
   let didClick = false
+  let name = ''
 </script>
 
 <svelte:head>
@@ -21,7 +23,7 @@
   <strong class="apply-style">
     I am using an @apply style to set background. Try editing to test HMR.
   </strong>
-
+  <Textfield bind:value={name} label="Name" />
 </div>
 
 <style>

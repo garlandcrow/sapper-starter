@@ -1,6 +1,9 @@
 const webpack = require('webpack')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const path = require('path')
 const config = require('sapper/config/webpack.js')
+
 const sveltePreprocess = require('svelte-preprocess')
 
 const pkg = require('./package.json')
@@ -15,6 +18,38 @@ const mainFields = ['svelte', 'module', 'browser', 'main']
 
 const preprocess = sveltePreprocess({ postcss: true })
 
+const styleLoader = {
+  test: /\.(sa|sc|c)ss$/,
+  use: [
+    'style-loader',
+    MiniCssExtractPlugin.loader,
+    'css-loader',
+    {
+      loader: 'sass-loader',
+      options: {
+        sassOptions: {
+          includePaths: ['./src', './node_modules'],
+        },
+      },
+    },
+  ],
+}
+
+const sassPlugins = [
+  new MiniCssExtractPlugin({
+    filename: '[name].css',
+    chunkFilename: '[name].[id].css',
+  }),
+  new OptimizeCssAssetsPlugin({
+    assetNameRegExp: /\.css$/g,
+    cssProcessor: require('cssnano'),
+    cssProcessorPluginOptions: {
+      preset: ['default', { discardComments: { removeAll: true } }],
+    },
+    canPrint: true,
+  }),
+]
+
 module.exports = {
   client: {
     entry: config.client.entry(),
@@ -22,6 +57,7 @@ module.exports = {
     resolve: { alias, extensions, mainFields },
     module: {
       rules: [
+        styleLoader,
         {
           test: /\.(svelte|html)$/,
           use: {
@@ -43,6 +79,8 @@ module.exports = {
     },
     mode,
     plugins: [
+      ...sassPlugins,
+
       // pending https://github.com/sveltejs/svelte/issues/3632
       hot && new webpack.HotModuleReplacementPlugin(),
       new webpack.DefinePlugin({
@@ -50,6 +88,7 @@ module.exports = {
         'process.env.NODE_ENV': JSON.stringify(mode),
       }),
     ].filter(Boolean),
+
     devtool: dev && 'inline-source-map',
   },
 
@@ -61,6 +100,7 @@ module.exports = {
     externals: Object.keys(pkg.dependencies).concat('encoding'),
     module: {
       rules: [
+        styleLoader,
         {
           test: /\.(svelte|html)$/,
           use: {
@@ -78,6 +118,7 @@ module.exports = {
       ],
     },
     mode: process.env.NODE_ENV,
+    plugins: [...sassPlugins],
     performance: {
       hints: false, // it doesn't matter if server.js is large
     },
