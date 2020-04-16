@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* by default purgecss will remove these global css resets */
 /* purgecss start ignore */
 
 body {
